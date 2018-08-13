@@ -1,0 +1,25 @@
+<%- include('./layout/head') %>
+    <h3>Listagem</h3>
+
+    <form action="/new" method="POST">
+       
+       <div class="row">
+        <div class="input-field col s3">
+            <input id="name" name="name" type="text">
+            <label for="name">Nome</label>
+        </div></div>
+        
+        <div class="row">
+        <div class="input-field col s3">
+            <input id="email" type="text" name="email">
+            <label for="email">E-mail</label>
+        </div></div>
+
+         <p><input type="submit" value="Salvar" class="btn"> <a href="/" class="btn red">Voltar</a></p> 
+
+    </form>
+
+  
+
+
+    <%- include('./layout/footer') %>
