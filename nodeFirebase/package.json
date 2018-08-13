@@ -1,0 +1,22 @@
+{
+  "name": "nodefirebase",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.3",
+    "cookie-parser": "~1.4.3",
+    "debug": "~3.1.0",
+    "ejs": "~2.6.1",
+    "express": "^4.16.3",
+    "express-load": "^1.1.16",
+    "expression": "0.0.1",
+    "firebase-admin": "^6.0.0",
+    "morgan": "~1.9.0",
+    "nodemon": "^1.18.3",
+    "require-dir": "^1.0.0",
+    "serve-favicon": "~2.5.0"
+  }
+}
