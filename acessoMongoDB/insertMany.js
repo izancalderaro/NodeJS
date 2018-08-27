@@ -16,11 +16,11 @@ mongoCliente.connect(servidor, { useNewUrlParser: true }, function (erro, client
                  { login: 'João', senha: '123'}
                 ]
        
-    let colecao = cliente.db('jaspion');
+    let db = cliente.db('jaspion');
+    let colecao = db.collection('usuarios'); 
 
 
-
-    colecao.collection('usuarios').insertMany(topico, function(erro, resultado){
+    colecao.insertMany(topico, function(erro, resultado){
         (erro) ? console.log('ERRO AO INSERIR DOCUMENTO' + erro) : console.log(resultado.insertedCount + ' DOCUMENTOS INSERIDOS COM SUCESSO');
     });
     

@@ -2,10 +2,9 @@ var express = require('express'),
   app = express(),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
- 
   bodyParser = require('body-parser'),
   servidor ='mongodb://localhost:27017/tododb',
-  load = require('express-load');
+  consign = require('consign');
   
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
@@ -20,7 +19,9 @@ app.use(bodyParser.json());
 // //routes(app); //register the route
 
 //load('models', {cwd: 'api' });
-load('controllers', {cwd: 'api'})
+consign({cwd: 'api'})
+  .then('models')
+  .then('controllers')
   .then('routes')
   .into(app);
 
@@ -32,3 +33,5 @@ app.use(function(req, res) {
 });
 
 console.log('todo list RESTful API server started on: ' + port);
+
+module.exports = app;
