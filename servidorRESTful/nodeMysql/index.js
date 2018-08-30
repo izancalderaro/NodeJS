@@ -1,9 +1,6 @@
 const restify = require('restify'),
-    restify_errors = require('restify-errors'),
-    express = require('express'),
-    consign = require('consign');
+    restify_errors = require('restify-errors');
 
-var app = express();
 
 
 
@@ -23,11 +20,6 @@ server.listen(3000, function () {
     console.log('%s listening at %s', server.name, server.url);
 });
 
-consign({cwd: 'api'})
-    .then('routes')
-    .then('db')
-    .into(app);
-
 
 //servidor Banco de Dados ===============================
 
@@ -43,11 +35,12 @@ var knex = require('knex')({
 
 //Rotas
 
-// server.get('/', (req, res, next) =>{
-   
-//     knex('rest')
-//     .select()
-   
-//     // res.send(req.params);
-//     // return next();
-// });
+server.get('/', (req, res, next) => {
+    knex('cliente').then((dados) => {
+        res.send(dados);
+    }, next);
+
+});
+
+
+// module.exports = app;
