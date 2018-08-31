@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 
 //load('models', {cwd: 'api' });
 consign({cwd: 'api'})
-  .then('models')
+  // .then('models')
   .then('controllers')
   .then('routes')
   .into(app);

@@ -3,8 +3,8 @@
 
 
   var mongoose = require('mongoose');
-  // var Task2 = require('../models/todoListModel'); //created model loading here
-  var task2 = app.models.todoListModel;
+  var Task2 = require('../models/todoListModel'); //created model loading here
+  //var task2 = app.models.todoListModel;
   var Task = mongoose.model('Tasks');
 
 
