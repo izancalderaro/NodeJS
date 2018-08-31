@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // const array = [1, 2, 3];
+
+        /*     const arrayModified = array.map(mapear);
+                               
+            function mapear(value){
+                return value * 2
+            }
+         */
+
+        /* const arrayModified = array.map(function (value) {
+            return value * 2
+        }); */
+
+        /* const arrayModified = array.map(value => value * 2);
+
+        console.log(arrayModified);
+ */
+        class tabuada {
+
+            constructor(numero, valores) {
+                this.numero = numero;
+                this.valores = valores;
+            }
+
+            get tabela(){
+               return this.valores.map(valor => {
+                   return {
+                       numero: this.numero,
+                       valor: valor,
+                       resultado: this.numero * valor
+
+                   }
+               });
+            }
+   /*          get tabela(){
+               return this.valores.map(function(valor){
+                   return {
+                       numero: this.numero,
+                       valor: valor,
+                       resultado: this.numero * valor
+
+                   }
+               }.bind(this));
+            } */
+
+        }
+
+        const x = new tabuada(4, [1, 2, 3]);
+
+        console.table(x.tabela);
+
+
+
+
+
+    </script>
+
+    <pre>
+    <h4>Forma padrão de função</h4>
+    
+    const array = [1, 2, 3];
+
+    const arrayModified = array.map(mapear);
+                               
+    function mapear(value){
+        return value * 2
+    }
+</pre>
+    <pre>
+    <h4>Expressão de função</h4>
+    
+    const array = [1, 2, 3];
+
+    const arrayModified = array.map(function(value){
+        return value * 2
+    });                         
+</pre>
+    <pre>
+    <h4>Arrow function</h4>
+    
+    const array = [1, 2, 3];
+
+    const arrayModified = array.map(value => value * 2);                         
+</pre>
+
+
+
+</body>
+
+</html>
