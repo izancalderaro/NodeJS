@@ -36,9 +36,58 @@ var knex = require('knex')({
 //Rotas
 
 server.get('/', (req, res, next) => {
-    knex('cliente').then((dados) => {
+
+    knex('rest').then((dados) => {
         res.send(dados);
     }, next);
+
+});
+
+server.post('/add', (req, res, next) => {
+
+    knex('rest')
+        .insert(req.body)
+        .then((dados) => {
+            (dados) ? res.send('Registro inserido') : res.send(new restify_errors.BadRequestError('Nenhum registro'));
+        }, next);
+
+});
+
+server.get('/show/:id', (req, res, next) => {
+
+    const { id } = req.params;
+
+    knex('rest')
+        .where('id', id)
+        .then((dados) => {
+            (dados) ? res.send(dados) : res.send(new restify_errors.BadRequestError('Nenhum registro'));
+        }, next);
+
+});
+
+server.put('/update/:id', (req, res, next) => {
+
+    const { id } = req.params;
+
+    knex('rest')
+        .where('id', id)
+        .update(req.body)
+        .then((dados) => {
+            (dados) ? res.send('Registro atualizado') : res.send(new restify_errors.BadRequestError('Nada atualizado'));
+        }, next);
+
+});
+
+server.del('/remove/:id', (req, res, next) => {
+
+    const { id } = req.params;
+
+    knex('rest')
+        .where('id', id)
+        .delete()
+        .then((dados) => {
+            (dados) ? res.send('Registro removido') : res.send(new restify_errors.BadRequestError('Nada removido'));
+        }, next);
 
 });
 
