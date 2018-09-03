@@ -37,13 +37,14 @@ var knex = require('knex')({
 
 server.get('/', (req, res, next) => {
 
-    knex('rest').then((dados) => {
+    // knex('rest').then((dados) => {
+        knex.select().from('rest').then((dados) => {
         res.send(dados);
     }, next);
 
 });
 
-server.post('/add', (req, res, next) => {
+server.post('/create', (req, res, next) => {
 
     knex('rest')
         .insert(req.body)
@@ -78,7 +79,7 @@ server.put('/update/:id', (req, res, next) => {
 
 });
 
-server.del('/remove/:id', (req, res, next) => {
+server.del('/delete/:id', (req, res, next) => {
 
     const { id } = req.params;
 
