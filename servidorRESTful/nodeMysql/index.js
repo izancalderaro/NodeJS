@@ -54,7 +54,7 @@ server.post('/create', (req, res, next) => {
 
 });
 
-server.get('/show/:id', (req, res, next) => {
+server.get('/read/:id', (req, res, next) => {
 
     const { id } = req.params;
 
