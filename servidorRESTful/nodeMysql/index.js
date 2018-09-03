@@ -60,6 +60,7 @@ server.get('/show/:id', (req, res, next) => {
 
     knex('rest')
         .where('id', id)
+        .first()
         .then((dados) => {
             (dados) ? res.send(dados) : res.send(new restify_errors.BadRequestError('Nenhum registro'));
         }, next);
