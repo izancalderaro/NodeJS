@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+    <title>Blá blá blá</title>
+</head>
+
+<body>
+
+    <div class="container-fluid mx-5">
+
+        <fieldset class="form-group row">
+            <legend>Cadastro de Nomes</legend>
+            <form>
+                <div class="form-group row">
+                    <div class="col-sm-3 col-6">
+                        <input type="text" name="nome" id="nome" class="form-control" placeholder="" aria-describedby="helpId">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="enviar">Enviar <i class="fas fa-check"></i></button>
+                </div>
+            </form>
+        </fieldset>
+
+        <hr>
+
+        <fieldset class="form-group row">
+            <legend>Lista de Nomes</legend>
+
+            <ul class="list-group col-sm-6" id="lista"></ul>
+
+        </fieldset>
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+
+    <script>
+
+        //$(window).on('load', function () {
+        $(function () {
+
+            const lista = $('#lista');
+            const btn = $('enviar');
+            const nome = $('#nome');
+
+            read();
+
+
+            $('#enviar').on('click', msg => {
+                // event.preventDefault();
+                create();
+            });
+
+            function read() {
+
+                lista.text('');
+                // lista.append('<li class="list-group-item"><a href=""> Teste </a></li>');
+
+                $.ajax({
+                    method: "get",
+                    url: "http://localhost:8080/read"
+                })
+                    .done((response) => {
+                        console.log(response);
+
+                        $.each(response, function (indexInArray, valueOfElement) {
+                            lista.append('<li class="list-group-item"><a href="">' + (valueOfElement.nome) + '</a></li>');
+                        });
+                    });
+            }
+
+            function create() {
+                $.ajax({
+                    method: "post",
+                    url: "http://localhost:8080/create",
+                    default: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: nome,
+                    statusCode: {
+                        400: function () {
+                            console.log('Solicitação Ruim');
+                        }
+                    }
+                })
+                    .done((response) => {
+                        console.log(response);
+                    });
+                read();
+            }
+
+            function edit() {
+
+            }
+
+            function update() {
+
+            }
+
+            function del() {
+
+            }
+
+        });
+
+    </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+</html>

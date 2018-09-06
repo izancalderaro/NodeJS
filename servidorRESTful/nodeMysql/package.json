@@ -10,9 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "browser-sync": "^2.24.7",
     "consign": "^0.1.6",
     "express": "^4.16.3",
-    "nodemon": "^1.18.3"
+    "nodemon": "^1.18.4"
   },
   "devDependencies": {
     "knex": "^0.15.2",

@@ -16,7 +16,7 @@ server.use(restify.plugins.queryParser());
 server.use(restify.plugins.bodyParser());
 
 
-server.listen(3000, function () {
+server.listen(8080, function () {
     console.log('%s listening at %s', server.name, server.url);
 });
 
@@ -35,10 +35,18 @@ var knex = require('knex')({
 
 //Rotas
 
-server.get('/', (req, res, next) => {
+
+server.get('/', restify.plugins.serveStatic({
+    directory: './dist',
+    file: 'index.html'
+}));
+
+
+
+server.get('/read', (req, res, next) => {
 
     // knex('rest').then((dados) => {
-        knex.select().from('rest').then((dados) => {
+    knex.select().from('rest').then((dados) => {
         res.send(dados);
     }, next);
 
@@ -54,7 +62,7 @@ server.post('/create', (req, res, next) => {
 
 });
 
-server.get('/read/:id', (req, res, next) => {
+server.get('/show/:id', (req, res, next) => {
 
     const { id } = req.params;
 
@@ -80,7 +88,7 @@ server.put('/update/:id', (req, res, next) => {
 
 });
 
-server.del('/delete/:id', (req, res, next) => {
+server.del('/del/:id', (req, res, next) => {
 
     const { id } = req.params;
 
