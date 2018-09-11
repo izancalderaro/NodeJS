@@ -14,7 +14,7 @@
 
 <body>
 
-    <div class="container-fluid mx-5">
+    <div class="container mx-5">
 
         <fieldset class="form-group row">
             <legend>Cadastro de Nomes</legend>
@@ -24,6 +24,7 @@
                         <input type="text" name="nome" id="nome" class="form-control" placeholder="" aria-describedby="helpId">
                     </div>
                     <button type="button" class="btn btn-primary" id="enviar">Enviar <i class="fas fa-check"></i></button>
+                    
                 </div>
             </form>
         </fieldset>
@@ -33,7 +34,7 @@
         <fieldset class="form-group row">
             <legend>Lista de Nomes</legend>
 
-            <ul class="list-group col-sm-6" id="lista"></ul>            
+            <ul class="list-group col-sm-6" id="lista"></ul>
 
         </fieldset>
 
@@ -52,19 +53,25 @@
             const lista = $('#lista');
             const btn = $('enviar');
             const nome = $('#nome');
+            const btnenviar = $('#enviar');
+            // const btnexcluir = $('#excluir');
+
 
             read();
 
             function templateLista(id, c_nome) {
-                return '<li class="list-group-item"><a href="" id="' + id + '">' + (c_nome) + '</a> <button class="btn btn-danger float-right"><i class="fas fa-trash"></i></button> </li>'
+                return '<li class="list-group-item"><a href="" id="' + id + '">' + (c_nome) + '</a><button class="btn btn-danger float-right" id="excluir'+id+'"><i class="fas fa-trash"></i></button></li>'
             }
 
-            $('#enviar').on('click', msg => {
+            btnenviar.on('click', msg => {
                 // event.preventDefault();             
                 create();
             });
 
-
+           /*  btnexcluir.on('click', msg => {
+                alert('teste');
+            });
+ */
 
             function read() {
 
