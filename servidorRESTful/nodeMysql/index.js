@@ -57,7 +57,7 @@ server.post('/create', (req, res, next) => {
     knex('rest')
         .insert(req.body)
         .then((dados) => {
-            (dados) ? res.send('Registro inserido') : res.send(new restify_errors.BadRequestError('Nenhum registro'));
+            (dados) ? res.send(dados) : res.send(new restify_errors.BadRequestError('Falha na criação do registro'));
         }, next);
 
 });

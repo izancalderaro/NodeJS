@@ -9,7 +9,7 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
         crossorigin="anonymous">
-    <title>Blá blá blá</title>
+    <title>Json - Node - Mysql -HTML</title>
 </head>
 
 <body>
@@ -33,7 +33,7 @@
         <fieldset class="form-group row">
             <legend>Lista de Nomes</legend>
 
-            <ul class="list-group col-sm-6" id="lista"></ul>
+            <ul class="list-group col-sm-6" id="lista"></ul>            
 
         </fieldset>
 
@@ -55,46 +55,62 @@
 
             read();
 
+            function templateLista(id, c_nome) {
+                return '<li class="list-group-item"><a href="" id="' + id + '">' + (c_nome) + '</a> <button class="btn btn-danger float-right"><i class="fas fa-trash"></i></button> </li>'
+            }
 
             $('#enviar').on('click', msg => {
-                // event.preventDefault();
+                // event.preventDefault();             
                 create();
             });
+
+
 
             function read() {
 
                 lista.text('');
-                // lista.append('<li class="list-group-item"><a href=""> Teste </a></li>');
 
                 $.ajax({
                     method: "get",
                     url: "http://localhost:8080/read"
                 })
                     .done((response) => {
+
                         console.log(response);
 
-                        $.each(response, function (indexInArray, valueOfElement) {
-                            lista.append('<li class="list-group-item"><a href="">' + (valueOfElement.nome) + '</a></li>');
+                        $.each(response, (index, element) => {
+                            lista.append(templateLista(element.id, element.nome));
                         });
                     });
             }
 
             function create() {
+
+                var c_nome = $('#nome').val();
+
                 $.ajax({
                     method: "post",
                     url: "http://localhost:8080/create",
                     default: 'application/x-www-form-urlencoded; charset=UTF-8',
                     data: nome,
                     statusCode: {
-                        400: function () {
+                        400: () => {
                             console.log('Solicitação Ruim');
+                        },
+                        500: () => {
+                            console.log('Erro no servidor');
                         }
                     }
                 })
                     .done((response) => {
+
                         console.log(response);
+
+                        lista.append(templateLista(response, c_nome));
                     });
-                read();
+
+
+
             }
 
             function edit() {
