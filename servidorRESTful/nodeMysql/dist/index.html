@@ -20,11 +20,10 @@
             <legend>Cadastro de Nomes</legend>
             <form>
                 <div class="form-group row">
-                    <div class="col-sm-3 col-6">
+                    <div class="col-sm-6 col-6">
                         <input type="text" name="nome" id="nome" class="form-control" placeholder="" aria-describedby="helpId">
                     </div>
                     <button type="button" class="btn btn-primary" id="enviar">Enviar <i class="fas fa-check"></i></button>
-                    
                 </div>
             </form>
         </fieldset>
@@ -34,52 +33,115 @@
         <fieldset class="form-group row">
             <legend>Lista de Nomes</legend>
 
-            <ul class="list-group col-sm-6" id="lista"></ul>
+            <ul class="list-group col-sm-4" id="lista">
+                <li class="list-group-item"> c_nome
+                    <a class="btn btn-link btn-xs float-right delete" data-toggle="" data-codigo="66" data-nome="teste" data-target="#excluirModal"
+                        title="Excluir" rel="tooltip" id="teste">
+                        <i class="fas fa-trash"></i></a></li>
+            </ul>
 
         </fieldset>
 
+    </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="excluirModal" tabindex="-1" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <form>
+                <!-- <input type="hidden" name="_method" value="DELETE" /> -->
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Exclusão</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        Confirmar a exclusão:
+                        <h3><span class="label label-info" id="nome"></span></h3>
+                        <hr/> Código:
+                        <h3><span class="label label-danger" id="codigo"></span></h3>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primary" id="excluir">Excluir</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <!-- <script src="../demo.js"></script> -->
 
     <script>
+
 
         //$(window).on('load', function () {
         $(function () {
 
             const lista = $('#lista');
-            const btn = $('enviar');
             const nome = $('#nome');
             const btnenviar = $('#enviar');
-            // const btnexcluir = $('#excluir');
 
 
             read();
 
+
+
+            btnenviar.on('click', (event) => {
+                event.preventDefault();
+                create();
+                $('#nome').val('');
+            });
+
+
+            $('#excluir').on('click', (event) => {
+                event.preventDefault();
+                var codigo = $('#codigo').text();
+                del(codigo);
+                $('#excluirModal').modal('hide');
+                location.reload();
+            });
+
+
+
+            $('#teste').on('click', (event) => {
+                event.preventDefault();
+                var button = $(event.relatedTarget);
+                var codigo = button.data('codigo');
+                console.log(codigo);
+
+                del(codigo);
+                //location.reload();
+            });
+
+
             function templateLista(id, c_nome) {
-                return '<li class="list-group-item"><a href="" id="' + id + '">' + (c_nome) + '</a><button class="btn btn-danger float-right" id="excluir'+id+'"><i class="fas fa-trash"></i></button></li>'
+                return '<li class="list-group-item">' + (c_nome) +
+                    '<a class="btn btn-link btn-xs float-right delete" data-toggle="" data-codigo="' + id + '" data-nome="' + (c_nome) + '" data-target="#excluirModal" title="Excluir" rel="tooltip">' +
+                    '<i class="fas fa-trash"></i></a></li>'
             }
 
-            btnenviar.on('click', msg => {
-                // event.preventDefault();             
-                create();
-            });
-
-           /*  btnexcluir.on('click', msg => {
-                alert('teste');
-            });
- */
-
+            //================ajax================
             function read() {
 
-                lista.text('');
+                // lista.text('');
 
                 $.ajax({
                     method: "get",
-                    url: "http://localhost:8080/read"
+                    url: "http://localhost:8080/read",
+                    dataType: "json"
                 })
                     .done((response) => {
 
@@ -98,6 +160,7 @@
                 $.ajax({
                     method: "post",
                     url: "http://localhost:8080/create",
+                    dataType: "json",
                     default: 'application/x-www-form-urlencoded; charset=UTF-8',
                     data: nome,
                     statusCode: {
@@ -115,9 +178,6 @@
 
                         lista.append(templateLista(response, c_nome));
                     });
-
-
-
             }
 
             function edit() {
@@ -128,18 +188,45 @@
 
             }
 
-            function del() {
+            function del(element) {
 
+                $.ajax({
+                    method: "delete",
+                    url: "http://localhost:8080/del/" + element,
+                    statusCode: {
+                        400: () => {
+                            console.log('Solicitação Ruim');
+                        },
+                        500: () => {
+                            console.log('Erro no servidor');
+                        }
+                    }
+                })
+                    .done((response) => {
+                        console.log(response);
+                    });
             }
+
+
+            $('#excluirModal').on('show.bs.modal', function (event) {
+
+                var button = $(event.relatedTarget);
+                var codigo = button.data('codigo');
+                var nome = button.data('nome');
+
+                var modal = $(this);
+                var form = modal.find('form');
+                var action = form.data('data-action');
+
+
+                modal.find('.modal-body #nome').text(nome);
+                modal.find('.modal-body #codigo').text(codigo);
+
+            });
 
         });
 
+
     </script>
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
 
 </html>
