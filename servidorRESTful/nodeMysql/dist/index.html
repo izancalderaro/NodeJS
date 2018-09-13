@@ -30,14 +30,12 @@
 
         <hr>
 
+        <!-- ==============lista=============      -->
         <fieldset class="form-group row">
             <legend>Lista de Nomes</legend>
 
             <ul class="list-group col-sm-4" id="lista">
-                <li class="list-group-item"> c_nome
-                    <a class="btn btn-link btn-xs float-right delete" data-toggle="" data-codigo="66" data-nome="teste" data-target="#excluirModal"
-                        title="Excluir" rel="tooltip" id="teste">
-                        <i class="fas fa-trash"></i></a></li>
+
             </ul>
 
         </fieldset>
@@ -48,8 +46,6 @@
     <div class="modal fade" id="excluirModal" tabindex="-1" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog">
             <form>
-                <!-- <input type="hidden" name="_method" value="DELETE" /> -->
-
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Exclusão</h4>
@@ -61,14 +57,14 @@
                     <div class="modal-body">
                         Confirmar a exclusão:
                         <h3><span class="label label-info" id="nome"></span></h3>
-                        <hr/> Código:
+                        <hr /> Código:
                         <h3><span class="label label-danger" id="codigo"></span></h3>
                     </div>
 
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button class="btn btn-primary" id="excluir">Excluir</button>
+                        <button type="button" class="btn btn-primary" id="btnexcluir">Excluir</button>
                     </div>
                 </div>
             </form>
@@ -87,17 +83,17 @@
     <script>
 
 
-        //$(window).on('load', function () {
+
         $(function () {
 
             const lista = $('#lista');
             const nome = $('#nome');
             const btnenviar = $('#enviar');
-
+            const btnteste = $('#btnteste')
+            const btndelete = $('.delete');
+            const btnexcluir = $('#excluir');
 
             read();
-
-
 
             btnenviar.on('click', (event) => {
                 event.preventDefault();
@@ -106,31 +102,47 @@
             });
 
 
-            $('#excluir').on('click', (event) => {
+            btnexcluir.on('click', (event) => {
                 event.preventDefault();
+                var button = $(event.currentTarget);
                 var codigo = $('#codigo').text();
-                del(codigo);
+                var linka = $('a').data('codigo');
+                // del(codigo);
                 $('#excluirModal').modal('hide');
-                location.reload();
-            });
-
-
-
-            $('#teste').on('click', (event) => {
-                event.preventDefault();
-                var button = $(event.relatedTarget);
-                var codigo = button.data('codigo');
                 console.log(codigo);
+                console.log('btn excluir pressionado');
 
-                del(codigo);
-                //location.reload();
+            });
+
+            //=================btn para testes =============================
+
+            btnteste.on('click', (event) => {
+                event.preventDefault();
+                var button = $(event.currentTarget);
+                var codigo = button.data('codigo');
+                //del(codigo);
+                //location.reload(); 
+                button.parent().remove();
+                console.log(button);
+                console.log(codigo);
             });
 
 
+            btndelete.on('click', (event) => {
+                event.preventDefault();
+                var button = $(event.currentTarget);
+                var codigo = button.data('codigo');
+                //del(codigo);
+                //location.reload();
+                console.log(button);
+                console.log(codigo);
+            });
+
+            //data-toggle="" data-codigo="' + id + '" data-nome="' + (c_nome) + '" data-target="#excluirModal" 
             function templateLista(id, c_nome) {
                 return '<li class="list-group-item">' + (c_nome) +
-                    '<a class="btn btn-link btn-xs float-right delete" data-toggle="" data-codigo="' + id + '" data-nome="' + (c_nome) + '" data-target="#excluirModal" title="Excluir" rel="tooltip">' +
-                    '<i class="fas fa-trash"></i></a></li>'
+                    '<button class="btn btn-danger btn-xs float-right delete" title="Excluir" rel="tooltip">' +
+                    '<i class="fas fa-trash"></i></button></li>'
             }
 
             //================ajax================
@@ -141,7 +153,12 @@
                 $.ajax({
                     method: "get",
                     url: "http://localhost:8080/read",
-                    dataType: "json"
+                    dataType: "json",
+                    statusCode: {
+                        200: () => {
+                            console.log('Solicitação atendida');
+                        }
+                    }
                 })
                     .done((response) => {
 
@@ -150,6 +167,9 @@
                         $.each(response, (index, element) => {
                             lista.append(templateLista(element.id, element.nome));
                         });
+
+                        (response.status = 200) ? console.log('ok') : console.log('erro');
+
                     });
             }
 
@@ -213,11 +233,7 @@
                 var button = $(event.relatedTarget);
                 var codigo = button.data('codigo');
                 var nome = button.data('nome');
-
                 var modal = $(this);
-                var form = modal.find('form');
-                var action = form.data('data-action');
-
 
                 modal.find('.modal-body #nome').text(nome);
                 modal.find('.modal-body #codigo').text(codigo);
@@ -228,5 +244,21 @@
 
 
     </script>
+
+    <div class="container mx-5">
+        <fieldset class="form-group row">
+            <legend>chamada por id e classe</legend>
+
+            <ul class="list-group col-sm-4">
+                <li class="list-group-item"> id btnteste
+                    <button type="button" class="btn btn-danger float-right" data-toggle="" data-codigo="66" data-nome=""
+                        title="Excluir" rel="tooltip" id="btnteste"><i class="fas fa-trash float-right"></i></button></li>
+                <li class="list-group-item">class delete
+                    <button type="button" class="btn btn-danger float-right delete" data-toggle="" data-codigo="67"
+                        data-nome="" data-target="#excluirModal" title="Excluir" rel="tooltip"><i class="fas fa-trash float-right"></i></button></li>
+            </ul>
+
+        </fieldset>
+    </div>
 
 </html>
