@@ -120,28 +120,29 @@
                 event.preventDefault();
                 var button = $(event.currentTarget);
                 var codigo = button.data('codigo');
-                //del(codigo);
+                del(codigo,button);
                 //location.reload(); 
-                button.parent().remove();
+                // button.parent().remove();
                 console.log(button);
                 console.log(codigo);
             });
 
 
-            btndelete.on('click', function(event) {
+            $(document).on('click', '.delete', (event) => {
                 event.preventDefault();
                 var button = $(event.currentTarget);
-                var codigo = button.data('codigo');
-                //del(codigo);
+                var codigo = button.data('codigo');                
+                del(codigo, button);
                 //location.reload();
+                // button.parent().remove();
                 console.log(button);
                 console.log(codigo);
             });
 
-            //data-toggle="" data-codigo="' + id + '" data-nome="' + (c_nome) + '" data-target="#excluirModal" 
+            
             function templateLista(id, c_nome) {
                 return '<li class="list-group-item">' + (c_nome) +
-                    '<button class="btn btn-danger btn-xs float-right delete" title="Excluir" rel="tooltip">' +
+                    '<button class="btn btn-danger btn-xs float-right delete" data-codigo="' + id + '" data-nome="' + (c_nome) + '"  title="Excluir" rel="tooltip">' +
                     '<i class="fas fa-trash"></i></button></li>'
             }
 
@@ -208,7 +209,7 @@
 
             }
 
-            function del(element) {
+            function del(element,button) {
 
                 $.ajax({
                     method: "delete",
@@ -224,6 +225,8 @@
                 })
                     .done((response) => {
                         console.log(response);
+                        (response.status = 200) ? button.parent().remove() : console.log('erro');
+                        
                     });
             }
 
