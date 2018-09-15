@@ -30,13 +30,13 @@
 
         <hr>
 
-        <!-- ==============lista=============      -->
+        <!-- ==============lista=============  -->
         <fieldset class="form-group row">
             <legend>Lista de Nomes</legend>
 
-            <ul class="list-group col-sm-4" id="lista">
+            <div class="list-group col-sm-4" id="lista">
 
-            </ul>
+            </div>
 
         </fieldset>
 
@@ -48,23 +48,23 @@
             <form>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Exclusão</h4>
+                        <h5 class="modal-title">Exclusão</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
 
                     <div class="modal-body">
-                        Confirmar a exclusão:
-                        <h3><span class="label label-info" id="nome"></span></h3>
-                        <hr /> Código:
-                        <h3><span class="label label-danger" id="codigo"></span></h3>
+                        <span class=""> Confirmar exclusão do cadastro:</span>
+                        <p>
+                            <h4><span class="badge badge-light"> <span id="codigo"></span> - <span id="nome"></span></span></h4>
+                        </p>
                     </div>
 
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" id="btnexcluir">Excluir</button>
+                        <button type="button" class="btn btn-danger" id="excluir">Excluir</button>
                     </div>
                 </div>
             </form>
@@ -82,18 +82,17 @@
 
     <script>
 
-
-
         $(function () {
 
             const lista = $('#lista');
             const nome = $('#nome');
             const btnenviar = $('#enviar');
-            const btnteste = $('#btnteste')
-            const btndelete = $('.delete');
             const btnexcluir = $('#excluir');
 
+
             read();
+
+            //=================btn =================
 
             btnenviar.on('click', (event) => {
                 event.preventDefault();
@@ -101,52 +100,61 @@
                 $('#nome').val('');
             });
 
+            //================ conteúdo gerado dinamicamente ==================
 
-            btnexcluir.on('click', (event) => {
-                event.preventDefault();
-                var button = $(event.currentTarget);
-                var codigo = $('#codigo').text();
-                var linka = $('a').data('codigo');
-                // del(codigo);
-                $('#excluirModal').modal('hide');
-                console.log(codigo);
-                console.log('btn excluir pressionado');
-
-            });
-
-            //=================btn para testes =============================
-
-            btnteste.on('click', (event) => {
+            $(document).on('click', '.deletar', (event) => {
                 event.preventDefault();
                 var button = $(event.currentTarget);
                 var codigo = button.data('codigo');
-                del(codigo,button);
-                //location.reload(); 
-                // button.parent().remove();
-                console.log(button);
+                //del(codigo, button);
+                // console.log(button);
+                // console.log(codigo);
+                // console.log('lixeira clicada');
+            });
+
+            var buttonGlobal;
+
+            $(document).on('click', '.editar', (event) => {
+                // event.preventDefault();
+                buttonGlobal = $(event.currentTarget);
+                var codigo = buttonGlobal.data('codigo');
+                buttonGlobal.parent().html('<input type="text" name="editNome" id="inputNome" class="form-control col-sm-8">');
+                // buttonGlobal.parent().append('<input type="text" name="inputNome" id="inputNome" class="form-control col-sm-8">')
+                $('#inputNome').val('');
+                $('#inputNome').focus();
+
+                console.log(buttonGlobal);
+                console.log('edição clicada');
+            });
+
+            $(document).on('keyup', '#inputNome', (event) => {
+
+                var codigo = buttonGlobal.data('codigo');
+                var nome = $('#inputNome').val();
+                console.log(buttonGlobal);
                 console.log(codigo);
+                console.log(nome);
+                if (event.which == 13) {
+                    // $('#spanNome').show();
+                    update(codigo, nome);
+                    $('#inputNome').hide();
+                }
             });
 
 
-            $(document).on('click', '.delete', (event) => {
-                event.preventDefault();
-                var button = $(event.currentTarget);
-                var codigo = button.data('codigo');                
-                del(codigo, button);
-                //location.reload();
-                // button.parent().remove();
-                console.log(button);
-                console.log(codigo);
-            });
 
-            
-            function templateLista(id, c_nome) {
-                return '<li class="list-group-item">' + (c_nome) +
-                    '<button class="btn btn-danger btn-xs float-right delete" data-codigo="' + id + '" data-nome="' + (c_nome) + '"  title="Excluir" rel="tooltip">' +
-                    '<i class="fas fa-trash"></i></button></li>'
+            function templateLista(id, c_nome, elemento = true) {
+                return (elemento ? '<a href="#" class="list-group-item list-group-item-action">' : '') +
+                    '<span id="spanNome">' + (c_nome) + '</span>' +
+                    '<button class="btn btn-edit btn-sm float-right editar" data-codigo="' + id + '" data-nome="' + (c_nome) + '"  title="Editar">' +
+                    '<i class="fas fa-edit"></i></button>' +
+                    '<button class="btn btn-danger btn-sm float-right deletar" data-toggle="modal" data-target="#excluirModal"  data-codigo="' + id + '" data-nome="' + (c_nome) + '"  title="Excluir">' +
+                    '<i class="fas fa-trash"></i></button>' +
+                    (elemento ? '</a>' : '');
             }
 
             //================ajax================
+
             function read() {
 
                 // lista.text('');
@@ -154,12 +162,8 @@
                 $.ajax({
                     method: "get",
                     url: "http://localhost:8080/read",
-                    dataType: "json",
-                    statusCode: {
-                        200: () => {
-                            console.log('Solicitação atendida');
-                        }
-                    }
+                    dataType: "json"
+
                 })
                     .done((response) => {
 
@@ -168,8 +172,6 @@
                         $.each(response, (index, element) => {
                             lista.append(templateLista(element.id, element.nome));
                         });
-
-                        (response.status = 200) ? console.log('ok') : console.log('erro');
 
                     });
             }
@@ -181,7 +183,7 @@
                 $.ajax({
                     method: "post",
                     url: "http://localhost:8080/create",
-                    dataType: "json",
+                    // dataType: "json",
                     default: 'application/x-www-form-urlencoded; charset=UTF-8',
                     data: nome,
                     statusCode: {
@@ -203,17 +205,38 @@
 
             function edit() {
 
-            }
-
-            function update() {
 
             }
 
-            function del(element,button) {
+            function update(codigo, tnome) {
+
+                $.ajax({
+                    method: "put",
+                    url: "http://localhost:8080/update/"+codigo,
+                    // dataType: "text/html",
+                    default: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: tnome,
+                    statusCode: {
+                        200: () => {
+                            console.log('Dados atualizados');
+                        },
+                        500: () => {
+                            console.log('Erro no servidor');
+                        }
+                    }
+                })
+                    .done((response) => {
+
+                        console.log(response);
+                        (response.status = 200) ? buttonGlobal.parent().html(templateLista(codigo, tnome, false)) : console.log('erro');
+                    });
+            }
+
+            function del(codigo, button) {
 
                 $.ajax({
                     method: "delete",
-                    url: "http://localhost:8080/del/" + element,
+                    url: "http://localhost:8080/delete/" + codigo,
                     statusCode: {
                         400: () => {
                             console.log('Solicitação Ruim');
@@ -226,7 +249,7 @@
                     .done((response) => {
                         console.log(response);
                         (response.status = 200) ? button.parent().remove() : console.log('erro');
-                        
+
                     });
             }
 
@@ -241,27 +264,18 @@
                 modal.find('.modal-body #nome').text(nome);
                 modal.find('.modal-body #codigo').text(codigo);
 
+                // console.log(button);
+
+                btnexcluir.on('click', (event) => {
+                    event.preventDefault();
+                    del(codigo, button);
+                    $('#excluirModal').modal('hide');
+                });
             });
 
         });
 
 
     </script>
-
-    <div class="container mx-5">
-        <fieldset class="form-group row">
-            <legend>chamada por id e classe</legend>
-
-            <ul class="list-group col-sm-4">
-                <li class="list-group-item"> id btnteste
-                    <button type="button" class="btn btn-danger float-right" data-toggle="" data-codigo="66" data-nome=""
-                        title="Excluir" rel="tooltip" id="btnteste"><i class="fas fa-trash float-right"></i></button></li>
-                <li class="list-group-item">class delete
-                    <button type="button" class="btn btn-danger float-right delete" data-toggle="" data-codigo="67"
-                        data-nome="" data-target="#excluirModal" title="Excluir" rel="tooltip"><i class="fas fa-trash float-right"></i></button></li>
-            </ul>
-
-        </fieldset>
-    </div>
 
 </html>

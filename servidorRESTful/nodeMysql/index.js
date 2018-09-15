@@ -88,7 +88,7 @@ server.put('/update/:id', (req, res, next) => {
 
 });
 
-server.del('/del/:id', (req, res, next) => {
+server.del('/delete/:id', (req, res, next) => {
 
     const { id } = req.params;
 
