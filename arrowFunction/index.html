@@ -35,26 +35,26 @@
                 this.valores = valores;
             }
 
-            get tabela(){
-               return this.valores.map(valor => {
-                   return {
-                       numero: this.numero,
-                       valor: valor,
-                       resultado: this.numero * valor
+            get tabela() {
+                return this.valores.map(valor => {
+                    return {
+                        numero: this.numero,
+                        valor: valor,
+                        resultado: this.numero * valor
 
-                   }
-               });
+                    }
+                });
             }
-   /*          get tabela(){
-               return this.valores.map(function(valor){
-                   return {
-                       numero: this.numero,
-                       valor: valor,
-                       resultado: this.numero * valor
-
-                   }
-               }.bind(this));
-            } */
+            /*          get tabela(){
+                        return this.valores.map(function(valor){
+                            return {
+                                numero: this.numero,
+                                valor: valor,
+                                resultado: this.numero * valor
+         
+                            }
+                        }.bind(this));
+                     } */
 
         }
 
@@ -94,6 +94,33 @@
     const array = [1, 2, 3];
 
     const arrayModified = array.map(value => value * 2);                         
+</pre>
+
+    </pre>
+    <pre>
+    <h4>Arrow function não tem necessidade de bind() </h4>
+    class tabuada {
+
+        constructor(numero, valores) {
+            this.numero = numero;
+            this.valores = valores;
+        }
+
+        get tabela(){
+           return this.valores.map(valor => {
+               return {
+                   numero: this.numero,
+                   valor: valor,
+                   resultado: this.numero * valor
+
+               }
+           });
+        }
+        
+        const x = new tabuada(4, [1, 2, 3]);
+
+        console.table(x.tabela);
+        
 </pre>
 
 
