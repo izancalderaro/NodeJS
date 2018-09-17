@@ -78,7 +78,7 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-    <!-- <script src="../demo.js"></script> -->
+    <!-- <script src="demo.js"></script> -->
 
     <script>
 
@@ -96,7 +96,8 @@
 
             btnenviar.on('click', (event) => {
                 event.preventDefault();
-                create();
+                var nome = $('#nome').val();
+                create(nome);
                 $('#nome').val('');
             });
 
@@ -107,19 +108,16 @@
                 var button = $(event.currentTarget);
                 var codigo = button.data('codigo');
                 //del(codigo, button);
-                // console.log(button);
-                // console.log(codigo);
-                // console.log('lixeira clicada');
             });
 
             var buttonGlobal;
 
             $(document).on('click', '.editar', (event) => {
-                // event.preventDefault();
+                //event.preventDefault();
                 buttonGlobal = $(event.currentTarget);
                 var codigo = buttonGlobal.data('codigo');
                 buttonGlobal.parent().html('<input type="text" name="editNome" id="inputNome" class="form-control col-sm-8">');
-                // buttonGlobal.parent().append('<input type="text" name="inputNome" id="inputNome" class="form-control col-sm-8">')
+                
                 $('#inputNome').val('');
                 $('#inputNome').focus();
 
@@ -131,13 +129,10 @@
 
                 var codigo = buttonGlobal.data('codigo');
                 var nome = $('#inputNome').val();
-                console.log(buttonGlobal);
-                console.log(codigo);
-                console.log(nome);
+
                 if (event.which == 13) {
-                    // $('#spanNome').show();
                     update(codigo, nome);
-                    $('#inputNome').hide();
+                                                                          
                 }
             });
 
@@ -176,7 +171,7 @@
                     });
             }
 
-            function create() {
+            function create(nome) {
 
                 var c_nome = $('#nome').val();
 
@@ -215,7 +210,7 @@
                     url: "http://localhost:8080/update/"+codigo,
                     // dataType: "text/html",
                     default: 'application/x-www-form-urlencoded; charset=UTF-8',
-                    data: tnome,
+                    data: 'nome='+tnome,
                     statusCode: {
                         200: () => {
                             console.log('Dados atualizados');
@@ -226,9 +221,8 @@
                     }
                 })
                     .done((response) => {
-
                         console.log(response);
-                        (response.status = 200) ? buttonGlobal.parent().html(templateLista(codigo, tnome, false)) : console.log('erro');
+                        (response.status = 200) ?  $('#inputNome').parent().html(templateLista(codigo, tnome, false)) : console.log('erro');
                     });
             }
 
