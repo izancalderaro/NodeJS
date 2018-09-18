@@ -1,4 +1,5 @@
-$(function () {
+
+   $(function () {
 
 	const lista = $('#lista');
 	const nome = $('#nome');
@@ -30,15 +31,12 @@ $(function () {
 
 	$(document).on('click', '.editar', (event) => {
 		//event.preventDefault();
-		buttonGlobal = $(event.currentTarget);
-		var codigo = buttonGlobal.data('codigo');
+		buttonGlobal = $(event.currentTarget);		
 		buttonGlobal.parent().html('<input type="text" name="editNome" id="inputNome" class="form-control col-sm-8">');
 		
 		$('#inputNome').val('');
 		$('#inputNome').focus();
 
-		console.log(buttonGlobal);
-		console.log('edição clicada');
 	});
 
 	$(document).on('keyup', '#inputNome', (event) => {
@@ -46,10 +44,30 @@ $(function () {
 		var codigo = buttonGlobal.data('codigo');
 		var nome = $('#inputNome').val();
 
+
 		if (event.which == 13) {
 			update(codigo, nome);
 																  
-		}
+		}		
+	});
+
+	$('#excluirModal').on('show.bs.modal', function (event) {
+
+		var button = $(event.relatedTarget);
+		var codigo = button.data('codigo');
+		var nome = button.data('nome');
+		var modal = $(this);
+
+		modal.find('.modal-body #nome').text(nome);
+		modal.find('.modal-body #codigo').text(codigo);
+
+		// console.log(button);
+
+		btnexcluir.on('click', (event) => {
+			event.preventDefault();
+			del(codigo, button);
+			$('#excluirModal').modal('hide');
+		});
 	});
 
 
@@ -87,16 +105,15 @@ $(function () {
 			});
 	}
 
-	function create(nome) {
-
-		var c_nome = $('#nome').val();
+	function create(tnome) {
+	  
 
 		$.ajax({
 			method: "post",
 			url: "http://localhost:8080/create",
 			// dataType: "json",
 			default: 'application/x-www-form-urlencoded; charset=UTF-8',
-			data: nome,
+			data: 'nome='+tnome,
 			statusCode: {
 				400: () => {
 					console.log('Solicitação Ruim');
@@ -110,13 +127,8 @@ $(function () {
 
 				console.log(response);
 
-				lista.append(templateLista(response, c_nome));
+				lista.append(templateLista(response, tnome));
 			});
-	}
-
-	function edit() {
-
-
 	}
 
 	function update(codigo, tnome) {
@@ -162,25 +174,4 @@ $(function () {
 
 			});
 	}
-
-
-	$('#excluirModal').on('show.bs.modal', function (event) {
-
-		var button = $(event.relatedTarget);
-		var codigo = button.data('codigo');
-		var nome = button.data('nome');
-		var modal = $(this);
-
-		modal.find('.modal-body #nome').text(nome);
-		modal.find('.modal-body #codigo').text(codigo);
-
-		// console.log(button);
-
-		btnexcluir.on('click', (event) => {
-			event.preventDefault();
-			del(codigo, button);
-			$('#excluirModal').modal('hide');
-		});
-	});
-
 });

@@ -36,9 +36,9 @@ var knex = require('knex')({
 //Rotas
 
 
-server.get('/', restify.plugins.serveStatic({
+server.get('/*', restify.plugins.serveStatic({
     directory: './dist',
-    file: 'index.html'
+    file: ''
 }));
 
 
