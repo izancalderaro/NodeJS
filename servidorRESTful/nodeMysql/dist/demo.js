@@ -13,9 +13,8 @@
 
 	btnenviar.on('click', (event) => {
 		event.preventDefault();
-		var nome = $('#nome').val();
-		create(nome);
-		$('#nome').val('');
+		create(nome.val());
+		nome.val('');
 	});
 
 	//================ conteúdo gerado dinamicamente ==================
@@ -31,10 +30,11 @@
 
 	$(document).on('click', '.editar', (event) => {
 		//event.preventDefault();
-		buttonGlobal = $(event.currentTarget);		
+		buttonGlobal = $(event.currentTarget);	
+		var nome = buttonGlobal.data('nome');			
 		buttonGlobal.parent().html('<input type="text" name="editNome" id="inputNome" class="form-control col-sm-8">');
 		
-		$('#inputNome').val('');
+		$('#inputNome').val(nome);
 		$('#inputNome').focus();
 
 	});
