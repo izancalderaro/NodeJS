@@ -113,7 +113,8 @@
 			url: "http://localhost:8080/create",
 			// dataType: "json",
 			default: 'application/x-www-form-urlencoded; charset=UTF-8',
-			data: 'nome='+tnome,
+			// default: 'multipart/form-data',
+			data: nome2,
 			statusCode: {
 				400: () => {
 					console.log('Solicitação Ruim');
