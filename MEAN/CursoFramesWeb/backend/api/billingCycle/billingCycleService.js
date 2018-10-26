@@ -1,7 +1,6 @@
 const BillingCycle = require('./billingCycle')
 
-BillingCycle.methods(['get','post ','put','delete'])
+BillingCycle.methods(['get','post','put','delete']);
+BillingCycle.updateOptions({new:true});
 
-module.exports = {
-    BillingCycle;
-};
+module.exports = BillingCycle
