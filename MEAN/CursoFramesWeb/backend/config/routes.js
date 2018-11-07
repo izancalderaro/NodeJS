@@ -1,25 +1,21 @@
-const express = require('express');
+const express = require('express')
 
 
-module.exports = function (server) {
-
+module.exports = (server) => {
+    
     //API Routes
     const router = express.Router();
     server.use('/api', router);
-
+    
+    //Rotas da API
     router.route('/teste').get((req, res, next) => {
         res.send('funcionou');
     });
-
-    //Rotas da API
-    // const BillingCycle = require('../api/billingCycle/billingCycleService');t
-    // BillingCycle.register(router, '/billingCycles')
-
-    // router.route('/billingCycles').post((req, res, next) => {
-    //     res.send('POST funcionando');
-    // });
     
     const billingCycleService = require('../api/billingCycle/billingCycleService')
     billingCycleService.register(router, '/billingCycles')
+    
+    const billingSummaryService = require('../api/billingSummary/billingSummaryService')
+    router.route('/billingSummary').get(billingSummaryService.getSummary)
 
 };
