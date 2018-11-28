@@ -16,6 +16,8 @@ server.use(restify.plugins.queryParser());
 server.use(restify.plugins.bodyParser());
 
 
+
+
 server.listen(8080, function () {
     console.log('%s listening at %s', server.name, server.url);
 });
@@ -45,9 +47,13 @@ server.get('/*', restify.plugins.serveStatic({
 
 server.get('/read', (req, res, next) => {
 
+    
+    //  res.setHeader("Access-Control-Allow-Origin: http://localhost:4200");
+    
+
     // knex('rest').then((dados) => {
     knex.select().from('rest').then((dados) => {
-        res.send(dados);
+        res.json(dados);
     }, next);
 
 });

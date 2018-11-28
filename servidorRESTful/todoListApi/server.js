@@ -17,7 +17,6 @@ app.use(bodyParser.json());
 
 // var routes = require('./api/routes/todoListRoutes'); //importing route
 // //routes(app); //register the route
-
 //load('models', {cwd: 'api' });
 consign({cwd: 'api'})
   // .then('models')

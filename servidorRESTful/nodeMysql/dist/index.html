@@ -18,14 +18,14 @@
 
         <fieldset class="form-group row">
             <legend>Cadastro de Nomes</legend>
-            <form>
+            <span>
                 <div class="form-group row">
                     <div class="col-sm-6 col-6">
                         <input type="text" name="nome" id="nome" class="form-control" placeholder="" aria-describedby="helpId">
                     </div>
                     <button type="button" class="btn btn-primary" id="enviar">Enviar <i class="fas fa-check"></i></button>
                 </div>
-            </form>
+            </span>
         </fieldset>
 
         <hr>
@@ -78,192 +78,193 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-    <script src="demo.js"></script>
+    <!-- <script src="demo.js"></script> -->
 
     <script>
 
-        // $(function () {
+        $(function () {
 
-        //     const lista = $('#lista');
-        //     const nome = $('#nome');
-        //     const btnenviar = $('#enviar');
-        //     const btnexcluir = $('#excluir');
-
-
-        //     read();
-
-        //     //=================btn =================
-
-        //     btnenviar.on('click', (event) => {
-        //         event.preventDefault();
-        //         var nome = $('#nome').val();
-        //         create(nome);
-        //         $('#nome').val('');
-        //     });
-
-        //     //================ conteúdo gerado dinamicamente ==================
-
-        //     $(document).on('click', '.deletar', (event) => {
-        //         event.preventDefault();
-        //         var button = $(event.currentTarget);
-        //         var codigo = button.data('codigo');
-        //         //del(codigo, button);
-        //     });
-
-        //     var buttonGlobal;
-
-        //     $(document).on('click', '.editar', (event) => {
-        //         //event.preventDefault();
-        //         buttonGlobal = $(event.currentTarget);
-        //         buttonGlobal.parent().html('<input type="text" name="editNome" id="inputNome" class="form-control col-sm-8">');
-                
-        //         $('#inputNome').val('');
-        //         $('#inputNome').focus();
-
-        //     });
-
-        //     $(document).on('keyup', '#inputNome', (event) => {
-
-        //         var codigo = buttonGlobal.data('codigo');
-        //         var nome = $('#inputNome').val();
-
-        //         if (event.which == 13) {
-        //             update(codigo, nome);
-                                                                          
-        //         }
-        //     });
+            const lista = $('#lista');
+            const nome = $('#nome');
+            const btnenviar = $('#enviar');
+            const btnexcluir = $('#excluir');
 
 
+            read();
 
-        //     function templateLista(id, c_nome, elemento = true) {
-        //         return (elemento ? '<a href="#" class="list-group-item list-group-item-action">' : '') +
-        //             '<span id="spanNome">' + (c_nome) + '</span>' +
-        //             '<button class="btn btn-edit btn-sm float-right editar" data-codigo="' + id + '" data-nome="' + (c_nome) + '"  title="Editar">' +
-        //             '<i class="fas fa-edit"></i></button>' +
-        //             '<button class="btn btn-danger btn-sm float-right deletar" data-toggle="modal" data-target="#excluirModal"  data-codigo="' + id + '" data-nome="' + (c_nome) + '"  title="Excluir">' +
-        //             '<i class="fas fa-trash"></i></button>' +
-        //             (elemento ? '</a>' : '');
-        //     }
+            //=================btn =================
 
-        //     //================ajax================
+            btnenviar.on('click', (event) => {
+                event.preventDefault();
+                var nome = $('#nome').val();
+                create(nome);
+                $('#nome').val('');
+            });
 
-        //     function read() {
+            //================ conteúdo gerado dinamicamente ==================
 
-        //         // lista.text('');
+            $(document).on('click', '.deletar', (event) => {
+                // event.preventDefault();
+                // var button = $(event.currentTarget);
+                // var codigo = button.data('codigo');
+                // del(codigo, button);
+                // console.log(button);
+            });
 
-        //         $.ajax({
-        //             method: "get",
-        //             url: "http://localhost:8080/read",
-        //             dataType: "json"
+            var buttonGlobal;
 
-        //         })
-        //             .done((response) => {
+            $(document).on('click', '.editar', (event) => {
+                //event.preventDefault();
+                buttonGlobal = $(event.currentTarget);
+                var nome = buttonGlobal.data('nome');
+                buttonGlobal.parent().html('<input type="text" name="editNome" id="inputNome" class="form-control col-sm-8">');
 
-        //                 console.log(response);
+                $('#inputNome').val(nome);
+                $('#inputNome').focus();
+            });
 
-        //                 $.each(response, (index, element) => {
-        //                     lista.append(templateLista(element.id, element.nome));
-        //                 });
+            $(document).on('keyup', '#inputNome', (event) => {
 
-        //             });
-        //     }
+                var codigo = buttonGlobal.data('codigo');
+                var nome = $('#inputNome').val();
 
-        //     function create(tnome) {
-              
+                if (event.which == 13) {
+                    update(codigo, nome);
 
-        //         $.ajax({
-        //             method: "post",
-        //             url: "http://localhost:8080/create",
-        //             // dataType: "json",
-        //             default: 'application/x-www-form-urlencoded; charset=UTF-8',
-        //             data: 'nome='+tnome,
-        //             statusCode: {
-        //                 400: () => {
-        //                     console.log('Solicitação Ruim');
-        //                 },
-        //                 500: () => {
-        //                     console.log('Erro no servidor');
-        //                 }
-        //             }
-        //         })
-        //             .done((response) => {
+                }
+            });
 
-        //                 console.log(response);
+            $('#excluirModal').on('show.bs.modal', function (event) {
 
-        //                 lista.append(templateLista(response, tnome));
-        //             });
-        //     }
+                var button = $(event.relatedTarget);
+                var codigo = button.data('codigo');
+                var nome = button.data('nome');
+                var modal = $(this);
 
-        //     function edit() {
+                modal.find('.modal-body #nome').text(nome);
+                modal.find('.modal-body #codigo').text(codigo);
 
+                // console.log(button);
 
-        //     }
-
-        //     function update(codigo, tnome) {
-
-        //         $.ajax({
-        //             method: "put",
-        //             url: "http://localhost:8080/update/"+codigo,
-        //             // dataType: "text/html",
-        //             default: 'application/x-www-form-urlencoded; charset=UTF-8',
-        //             data: 'nome='+tnome,
-        //             statusCode: {
-        //                 200: () => {
-        //                     console.log('Dados atualizados');
-        //                 },
-        //                 500: () => {
-        //                     console.log('Erro no servidor');
-        //                 }
-        //             }
-        //         })
-        //             .done((response) => {
-        //                 console.log(response);
-        //                 (response.status = 200) ?  $('#inputNome').parent().html(templateLista(codigo, tnome, false)) : console.log('erro');
-        //             });
-        //     }
-
-        //     function del(codigo, button) {
-
-        //         $.ajax({
-        //             method: "delete",
-        //             url: "http://localhost:8080/delete/" + codigo,
-        //             statusCode: {
-        //                 400: () => {
-        //                     console.log('Solicitação Ruim');
-        //                 },
-        //                 500: () => {
-        //                     console.log('Erro no servidor');
-        //                 }
-        //             }
-        //         })
-        //             .done((response) => {
-        //                 console.log(response);
-        //                 (response.status = 200) ? button.parent().remove() : console.log('erro');
-
-        //             });
-        //     }
+                btnexcluir.on('click', (event) => {
+                    event.preventDefault();
+                    del(codigo, button);
+                    $('#excluirModal').modal('hide');
+                });
+            });
 
 
-        //     $('#excluirModal').on('show.bs.modal', function (event) {
+            function templateLista(id, c_nome, elemento = true) {
+                return (elemento ? '<a href="#" class="list-group-item list-group-item-action">' : '') +
+                    `<span id="spanNome">  ${c_nome}  </span>
+                    <button class="btn btn-edit btn-sm float-right editar" data-codigo="${id}" data-nome="${c_nome}"  title="Editar">
+                    <i class="fas fa-edit"></i></button>
+                    <button class="btn btn-danger btn-sm float-right deletar" data-toggle="modal" data-target="#excluirModal"  data-codigo="${id}" data-nome="${c_nome}"  title="Excluir">
+                    <i class="fas fa-trash"></i></button>`+
+                    (elemento ? '</a>' : '');
+            }
 
-        //         var button = $(event.relatedTarget);
-        //         var codigo = button.data('codigo');
-        //         var nome = button.data('nome');
-        //         var modal = $(this);
+            //================ajax================
 
-        //         modal.find('.modal-body #nome').text(nome);
-        //         modal.find('.modal-body #codigo').text(codigo);
+            function read() {
 
-        //         // console.log(button);
+                // lista.text('');
 
-        //         btnexcluir.on('click', (event) => {
-        //             event.preventDefault();
-        //             del(codigo, button);
-        //             $('#excluirModal').modal('hide');
-        //         });
-        //     });
+                $.ajax({
+                    method: "get",
+                    url: "http://localhost:8080/read",
+                    dataType: "json"
 
-        // });
+                })
+                    .done((response) => {
+
+                        console.log(response);
+
+                        $.each(response, (index, element) => {
+                            lista.append(templateLista(element.id, element.nome));
+                        });
+
+                    });
+            }
+
+            function create(tnome) {
+
+
+                $.ajax({
+                    method: "post",
+                    url: "http://localhost:8080/create",
+                    // dataType: "json",
+                    default: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: 'nome=' + tnome,
+                    statusCode: {
+                        400: () => {
+                            console.log('Solicitação Ruim');
+                        },
+                        500: () => {
+                            console.log('Erro no servidor');
+                        }
+                    }
+                })
+                    .done((response) => {
+
+                        console.log(response);
+
+                        lista.append(templateLista(response, tnome));
+                    });
+            }
+
+            function edit() {
+
+
+            }
+
+            function update(codigo, tnome) {
+
+                $.ajax({
+                    method: "put",
+                    url: "http://localhost:8080/update/" + codigo,
+                    // dataType: "text/html",
+                    default: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: 'nome=' + tnome,
+                    statusCode: {
+                        200: () => {
+                            console.log('Dados atualizados');
+                        },
+                        500: () => {
+                            console.log('Erro no servidor');
+                        }
+                    }
+                })
+                    .done((response) => {
+                        console.log(response);
+                        (response.status = 200) ? $('#inputNome').parent().html(templateLista(codigo, tnome, false)) : console.log('erro');
+                    });
+            }
+
+            function del(codigo, button) {
+
+                $.ajax({
+                    method: "delete",
+                    url: "http://localhost:8080/delete/" + codigo,
+                    statusCode: {
+                        400: () => {
+                            console.log('Solicitação Ruim');
+                        },
+                        500: () => {
+                            console.log('Erro no servidor');
+                        }
+                    }
+                })
+                    .done((response) => {
+                        console.log(response);
+                        (response.status = 200) ? button.parent().remove() : console.log('erro');
+
+                    });
+            }
+
+
+
+        });
 
 
     </script>
