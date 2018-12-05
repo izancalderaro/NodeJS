@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { Observable, throwError } from 'rxjs';
-import { map, catchError, flatMap } from 'rxjs/operators';
+import { map, catchError, flatMap} from 'rxjs/operators';
+
 import { Category } from './category.model';
-import { element } from '@angular/core/src/render3';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  private apiPath: string = "api/categories";
+  private apiPath: string = 'api/categories';
 
   constructor(private http: HttpClient) { }
 
@@ -43,7 +45,7 @@ export class CategoryService {
     return this.http.put(url, category).pipe(
       catchError(this.handleError),
       map(() => category)
-    );
+    )
   }
 
   delete(id: number): Observable<any> {
@@ -51,7 +53,8 @@ export class CategoryService {
     const url = `${this.apiPath}/${id}`;
     return this.http.delete(url).pipe(
       catchError(this.handleError),
-      map(() => null))
+      map(() => null)
+      )
   }
 
 
