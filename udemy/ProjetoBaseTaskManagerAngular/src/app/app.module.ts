@@ -5,22 +5,25 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+
 import { AppComponent } from './app.component';
 
-TasksComponent
+
 
 @NgModule({
   declarations: [
     AppComponent, 
     NavbarComponent,
-    TasksComponent
+    TasksComponent    
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule    
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+
+ }

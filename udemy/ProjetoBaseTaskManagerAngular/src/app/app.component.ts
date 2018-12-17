@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Task } from './tasks/shared/task.model';
+
 
 @Component({
   selector: 'app-root',
@@ -10,19 +12,7 @@ import { Component } from '@angular/core';
 
 
 export class AppComponent {
-  title = 'Gerenciador de Tarefas';
-  task = new Task(21, 'Enviar orçameto para o cliente Z');
+  title = 'app';
 }
 
 
-export class Task {
- 
-  public id: number;
-  public title: string;
-  
-  constructor(id: number, title: string) {
-     this.id = id;
-     this.title = title;    
-  }
-  
-}
