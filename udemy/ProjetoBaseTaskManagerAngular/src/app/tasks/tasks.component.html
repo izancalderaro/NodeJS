@@ -9,17 +9,22 @@
             <td>{{task.id}}</td>
             <td>{{task.title}}</td>
             <td>
-                <button type="button" name="" id="" class="btn btn-info" data-toggle="modal" data-target="#taskDetail"><i
-                        class="fa fa-info" aria-hidden="true"></i> Detalhes </button>
-                <button type="button" name="" id="" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</button>
+                <button type="button" name="" id="" class="btn btn-info" data-toggle="modal" data-target="#taskDetail"
+                    (click)="onSelect(task)"><i class="fa fa-info" aria-hidden="true"></i> Detalhes </button>
+                <button type="button" name="" id="" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                    Excluir</button>
 
             </td>
         </tr>
     </tbody>
 </table>
 
+<div ng *ngIf="selectedTask">
+    <p>{{selectedTask.id}}</p>
+    <p>{{selectedTask.title}}</p>
+</div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="taskDetail">
+<div class="modal fade" tabindex="-1" role="dialog" id="taskDetail" *ngIf="selectedTask">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -29,7 +34,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Modal body text goes here....</p>
+                <p>{{selectedTask.id}}</p>
+                <p>{{selectedTask.title}}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
