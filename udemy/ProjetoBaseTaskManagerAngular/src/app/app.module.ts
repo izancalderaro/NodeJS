@@ -7,6 +7,8 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { TaskDetailComponent } from './tasks/task-detail/task-detail.component';
+
 
 
 
@@ -14,7 +16,8 @@ import { NavbarComponent } from './navbar/navbar.component';
   declarations: [
     AppComponent, 
     NavbarComponent,
-    TasksComponent    
+    TasksComponent,
+    TaskDetailComponent    
   ],
   imports: [
     BrowserModule,
