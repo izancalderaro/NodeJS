@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Task } from "./task.model";
+import { Injectable } from '@angular/core';
+import { Task } from './task.model';
 
 const TASKS: Task[] = [
     { id: 1, title: 'Fazer tarefa 1' },
@@ -9,7 +9,7 @@ const TASKS: Task[] = [
     { id: 5, title: 'Fazer tarefa 5' },
     { id: 6, title: 'Fazer tarefa 6' },
     { id: 7, title: 'Fazer tarefa 7' }
-]
+];
 
 @Injectable()
 

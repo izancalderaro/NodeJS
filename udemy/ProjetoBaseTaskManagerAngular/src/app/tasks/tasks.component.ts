@@ -3,33 +3,27 @@ import { Task } from './shared/task.model';
 import { TaskService } from './shared/task.service';
 
 
-
-
 @Component({
-    selector: 'tasks',
-    templateUrl: './tasks.component.html'
+  // tslint:disable-next-line:component-selector
+  selector: 'tasks',
+  templateUrl: './tasks.component.html',
+  providers: [TaskService]
 })
+
 
 export class TasksComponent implements OnInit {
 
-    public tasks: Task[];
-    public selectedTask: Task;
-    public service = new TaskService();
+  public tasks: Task[];
+  public selectedTask: Task;
+
+  public constructor(private taskService: TaskService) { }
 
 
-    public constructor() {
-    }
+  public ngOnInit() {
+    this.tasks = this.taskService.getTasks();
+  }
 
-    public ngOnInit() {
-        this.tasks = this.service.getTasks();
-
-
-    }
-
-    /**
-     * onSelect task:Task : void    */
-    public onSelect(task: Task): void {
-        this.selectedTask = task;
-    }
-
+  public onSelect(task: Task): void {
+    this.selectedTask = task;
+  }
 }

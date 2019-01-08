@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { Task } from './tasks/shared/task.model';
-
 
 @Component({
   selector: 'app-root',
