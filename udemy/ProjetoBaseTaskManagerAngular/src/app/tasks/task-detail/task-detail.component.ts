@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Task } from "../shared/task.model";
 
 @Component({
@@ -7,8 +7,10 @@ import { Task } from "../shared/task.model";
 })
 
 export class TaskDetailComponent {
-    public task: Task;
+    @Input() public task: Task;
 
-    public constructor() {}
+    public constructor() {
+        //this.task = new Task(1,'Tarefa')
+    }
 
 }
