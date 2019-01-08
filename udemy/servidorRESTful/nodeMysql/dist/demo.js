@@ -11,7 +11,7 @@ $(function () {
 
 	//=================btn =================
 
-	btnenviar.on('click', (event) => {
+	btnenviar.on('click', (event) > {
 		create(camponome.val());
 		camponome.val('');
 	});
@@ -31,7 +31,7 @@ $(function () {
 		// var codigo = button.data('codigo');
 		// del(codigo, button);
 		// console.log(button);
-		
+
 	});
 
 	var buttonGlobal;
@@ -61,7 +61,7 @@ $(function () {
 
 	$('#excluirModal').on('show.bs.modal', function (event) {
 		event.preventDefault();
-		
+
 		var button = $(event.relatedTarget);
 		var codigo = button.data('codigo');
 		var nome = button.data('nome');
@@ -83,7 +83,7 @@ $(function () {
 	});
 
 
-/* 
+/*
 	function templateLista(id, c_nome, elemento = true) {
 		return (elemento ? `<a href="#" class="list-group-item list-group-item-action">` : ``)+
 			`<span id="spanNome">${c_nome}</span>
