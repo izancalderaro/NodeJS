@@ -15,6 +15,10 @@ import { TaskService } from './tasks/shared/task.service';
 
 const ROUTES = RouterModule.forRoot([
   {
+    path: 'task/:id',
+    component: TaskDetailComponent
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent
   },
@@ -28,6 +32,7 @@ const ROUTES = RouterModule.forRoot([
     pathMatch: 'full'
   }
 ]);
+
 
 @NgModule({
   declarations: [
